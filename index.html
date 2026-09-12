@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Garage — Task Planner</title>
+
+<!-- PWA Requirements -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0284c7">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+
+  <div class="masthead">
+    <div>
+      <h1>The Garage</h1>
+      <p>Sort tasks into bays by the kind of work they need, and keep an eye on what's due.</p>
+    </div>
+    <button id="notifyToggle" type="button">Enable browser alerts</button>
+  </div>
+
+  <div class="gauges" id="gauges"></div>
+
+  <div class="alert-strip" id="alertStrip"></div>
+
+  <div class="console">
+    <h2>Add a task</h2>
+    <form id="taskForm">
+      <div class="field-row">
+        <div class="field">
+          <label for="taskTitle">Task</label>
+          <input type="text" id="taskTitle" placeholder="e.g. Finish slide deck" required>
+        </div>
+        <div class="field">
+          <label for="taskDeadline">Due</label>
+          <input type="datetime-local" id="taskDeadline" required>
+        </div>
+        <div class="field">
+          <label for="taskDuration">Hours</label>
+          <input type="number" id="taskDuration" min="0.5" step="0.5" value="1" required>
+        </div>
+        <div class="field">
+          <label for="taskPriority">Priority</label>
+          <select id="taskPriority">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="taskLane">Bay</label>
+          <select id="taskLane">
+            <option value="bugatti">Bugatti — quick sprints</option>
+            <option value="porsche">Porsche — deep focus</option>
+            <option value="defender">Defender — long haul</option>
+            <option value="jaguar">Jaguar — polish</option>
+          </select>
+        </div>
+        <button type="submit">Add task</button>
+      </div>
+    </form>
+  </div>
+
+  <h2>Your garage</h2>
+  <div class="board" id="board"></div>
+
+  <div class="clear-row"><button id="clearDoneBtn" type="button">Clear finished tasks</button></div>
+
+  <div class="queue">
+    <h2>Today's queue</h2>
+    <div id="queueList"></div>
+  </div>
+
+  <footer>
+    Tasks are saved in this browser automatically. In-page alerts always work; browser alerts need the button above and only fire while this tab is open.
+  </footer>
+</div>
+
+<script src="script.js"></script>
+
+<!-- Register PWA Service Worker -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log('PWA Service Worker Registered!'))
+      .catch((err) => console.error('Service Worker Registration Failed:', err));
+  }
+</script>
+</body>
+</html>
